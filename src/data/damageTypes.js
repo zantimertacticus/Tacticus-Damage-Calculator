@@ -1,0 +1,90 @@
+export const DAMAGE_TYPES = [
+  {
+    "name": "Bio",
+    "pierce": 0.3
+  },
+  {
+    "name": "Blast",
+    "pierce": 0.15
+  },
+  {
+    "name": "Bolter",
+    "pierce": 0.2
+  },
+  {
+    "name": "Chain",
+    "pierce": 0.2
+  },
+  {
+    "name": "Direct",
+    "pierce": 1.0
+  },
+  {
+    "name": "Energy",
+    "pierce": 0.3
+  },
+  {
+    "name": "Eviscerating",
+    "pierce": 0.5
+  },
+  {
+    "name": "Flame",
+    "pierce": 0.25
+  },
+  {
+    "name": "Heavy Round",
+    "pierce": 0.55
+  },
+  {
+    "name": "Las",
+    "pierce": 0.1
+  },
+  {
+    "name": "Melta",
+    "pierce": 0.75
+  },
+  {
+    "name": "Molecular",
+    "pierce": 0.6
+  },
+  {
+    "name": "Particle",
+    "pierce": 0.35
+  },
+  {
+    "name": "Physical",
+    "pierce": 0.01
+  },
+  {
+    "name": "Piercing",
+    "pierce": 0.8
+  },
+  {
+    "name": "Plasma",
+    "pierce": 0.65
+  },
+  {
+    "name": "Power",
+    "pierce": 0.4
+  },
+  {
+    "name": "Projectile",
+    "pierce": 0.15
+  },
+  {
+    "name": "Psychic",
+    "pierce": 1.0
+  },
+  {
+    "name": "Pulse",
+    "pierce": 0.2
+  },
+  {
+    "name": "Toxic",
+    "pierce": 0.7
+  }
+];
+
+export function getPierceRatio(name) {
+  return DAMAGE_TYPES.find(d => d.name === name)?.pierce ?? 0;
+}
