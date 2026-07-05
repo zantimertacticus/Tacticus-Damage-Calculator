@@ -1,29 +1,17 @@
 # Tacticus Damage Calculator
 
-v1.2
+v1.3
 
-## New in v1.2
+## New in v1.3
 
-- Expanded trait dropdown using the supplied Tacticus wiki trait table.
-- Trait presets now auto-fill formula-relevant modifiers where possible.
-- Added outgoing percentage damage bonus.
-- Added incoming armour reduction percentage.
-- Added first-hit post-armour reduction percentage.
-- Added Mk X Gravis-style second armour pass toggle.
-- Added Weaver of Fates-style maximum variance toggle.
-- Non-formula traits are included as informational presets and do not alter damage unless you manually enter modifier values.
+- Player and Boss can now have multiple selected trait presets.
+- Selected traits are displayed as a trait list.
+- Applying traits combines formula-relevant modifiers.
+- Clearer labels/disclaimers:
+  - Max variance toggle is specifically for Weaver of Fates-style effects.
+  - Second armour pass toggle is specifically for Mk X Gravis-style effects.
+- Header now says: Unofficial Fan Tool, made by zantimer.
 
 ## Notes
 
-Some traits depend on battle context that the calculator does not currently model, such as:
-- melee vs ranged
-- range to target
-- summons
-- Big Target / Vehicle target tags
-- Psychic / Direct damage exclusions
-- unit deaths this battle
-- adjacency
-- movement this turn
-- specific round number
-
-For those, the dropdown gives a sensible formula preset where possible, but you may still need to manually adjust values.
+Some traits require battle context that the calculator does not fully model, such as melee/ranged, range, adjacency, target tags, summons, round number, deaths this battle, and damage-type exclusions. Those traits can still be selected, but only formula-relevant modifiers are auto-applied.

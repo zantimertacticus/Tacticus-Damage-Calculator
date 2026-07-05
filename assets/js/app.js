@@ -5,7 +5,7 @@
 const DAMAGE_TYPES = [{"name": "Bio", "pierce": 0.3}, {"name": "Blast", "pierce": 0.15}, {"name": "Bolter", "pierce": 0.2}, {"name": "Chain", "pierce": 0.2}, {"name": "Direct", "pierce": 1}, {"name": "Energy", "pierce": 0.3}, {"name": "Eviscerating", "pierce": 0.5}, {"name": "Flame", "pierce": 0.25}, {"name": "Heavy Round", "pierce": 0.55}, {"name": "Las", "pierce": 0.1}, {"name": "Melta", "pierce": 0.75}, {"name": "Molecular", "pierce": 0.6}, {"name": "Particle", "pierce": 0.35}, {"name": "Physical", "pierce": 0.01}, {"name": "Piercing", "pierce": 0.8}, {"name": "Plasma", "pierce": 0.65}, {"name": "Power", "pierce": 0.4}, {"name": "Projectile", "pierce": 0.15}, {"name": "Psychic", "pierce": 1}, {"name": "Pulse", "pierce": 0.2}, {"name": "Toxic", "pierce": 0.7}];
 const DAMAGE_VARIANCE = { MIN: 0.8, AVG: 1, MAX: 1.2 };
 const TERRAIN = { HIGH_GROUND: 0.5, RAZOR_WIRE: 0.5, TRENCH: -0.5 };
-const STORAGE_KEY = "tdc_named_presets_v12";
+const STORAGE_KEY = "tdc_named_presets_v13";
 
 const TRAIT_TEMPLATES = [
   { value: "custom", label: "Custom / Manual", hint: "Manual modifier entry.", apply: {} },
@@ -79,6 +79,7 @@ class Attack {
 function defaultModifiers() {
   return {
     template: "custom",
+    selectedTraits: [],
     outgoingDamageBonus: 0,
     outgoingDamagePercentBonus: 0,
     outgoingHitsBonus: 0,
@@ -120,7 +121,7 @@ class Combatant {
       razorWire: Boolean(raw.terrain?.razorWire),
       trench: Boolean(raw.terrain?.trench)
     };
-    c.modifiers = { ...defaultModifiers(), ...(raw.modifiers ?? {}) };
+    c.modifiers = { ...defaultModifiers(), ...(raw.modifiers ?? {}) }; c.modifiers.selectedTraits = Array.isArray(c.modifiers.selectedTraits) ? c.modifiers.selectedTraits : [];
     const names = name === "Player"
       ? ["Attack", "Extra Attack"]
       : ["Attack", "Ability 1", "Ability 2", "Ability 3"];
@@ -280,12 +281,40 @@ function traitOptions(selected) { return TRAIT_TEMPLATES.map(t => `<option value
 function traitHint(value) { return TRAIT_TEMPLATES.find(t=>t.value===value)?.hint ?? ""; }
 
 
-function applyTraitPreset(combatant) {
-  const selected = TRAIT_TEMPLATES.find(t => t.value === combatant.modifiers.template);
-  if (!selected) return;
-  const currentTemplate = combatant.modifiers.template;
-  combatant.modifiers = { ...defaultModifiers(), template: currentTemplate, ...(selected.apply ?? {}) };
+function addTrait(combatant, value) {
+  if (!Array.isArray(combatant.modifiers.selectedTraits)) combatant.modifiers.selectedTraits = [];
+  if (!value || value === "custom") return;
+  if (!combatant.modifiers.selectedTraits.includes(value)) {
+    combatant.modifiers.selectedTraits.push(value);
+  }
 }
+
+function combineTraitValues(current, key, value) {
+  if (typeof value === "boolean") return Boolean(current) || value;
+  const numeric = Number(value) || 0;
+  if (key.includes("Reduction") || key.includes("Percent") || key.includes("Bonus") || key.includes("Penalty")) {
+    return (Number(current) || 0) + numeric;
+  }
+  return numeric;
+}
+
+function applySelectedTraits(combatant) {
+  const selected = Array.isArray(combatant.modifiers.selectedTraits) ? combatant.modifiers.selectedTraits : [];
+  const currentTemplate = combatant.modifiers.template;
+  const selectedTraits = [...selected];
+  const next = { ...defaultModifiers(), template: currentTemplate, selectedTraits };
+
+  selectedTraits.forEach(value => {
+    const trait = TRAIT_TEMPLATES.find(t => t.value === value);
+    if (!trait?.apply) return;
+    Object.entries(trait.apply).forEach(([key, value]) => {
+      next[key] = combineTraitValues(next[key], key, value);
+    });
+  });
+
+  combatant.modifiers = next;
+}
+
 
 function renderCombatant(container, combatant, side) {
   const isBoss = side === "boss";
@@ -315,14 +344,25 @@ function renderCombatant(container, combatant, side) {
 function renderModifiers(c) {
   const isSecondArmour = c.modifiers.secondArmourPassNonCrit ? "checked" : "";
   const isMaxVariance = c.modifiers.forceMaxVariance ? "checked" : "";
+  const selectedTraits = Array.isArray(c.modifiers.selectedTraits) ? c.modifiers.selectedTraits : [];
+  const traitList = selectedTraits.length
+    ? selectedTraits.map(value => {
+        const trait = TRAIT_TEMPLATES.find(t => t.value === value);
+        return `<span class="trait-pill" data-remove-trait="${value}">${trait?.label ?? value} ×</span>`;
+      }).join("")
+    : `<span class="trait-empty">No traits selected.</span>`;
+
   return `<div class="modifier-card">
     <div class="section-title">Traits / abilities / modifiers</div>
-    <label>Trait / ability template <select data-modifier="template">${traitOptions(c.modifiers.template)}</select></label>
+    <label>Add trait / ability preset <select data-trait-picker>${traitOptions(c.modifiers.template)}</select></label>
     <p class="trait-hint">${traitHint(c.modifiers.template)}</p>
     <div class="actions">
-      <button type="button" data-apply-trait>Apply selected preset</button>
+      <button type="button" data-add-trait>Add trait</button>
+      <button type="button" data-apply-traits>Apply selected traits</button>
+      <button type="button" data-clear-traits>Clear traits</button>
       <button type="button" data-clear-modifiers>Clear modifiers</button>
     </div>
+    <div class="trait-list">${traitList}</div>
     <div class="form-grid">
       <label>Outgoing flat damage bonus <input data-modifier="outgoingDamageBonus" type="number" value="${c.modifiers.outgoingDamageBonus}"></label>
       <label>Outgoing damage bonus % <input data-modifier="outgoingDamagePercentBonus" type="number" value="${c.modifiers.outgoingDamagePercentBonus}"></label>
@@ -332,9 +372,10 @@ function renderModifiers(c) {
       <label>Incoming hit penalty <input data-modifier="incomingHitPenalty" type="number" min="0" value="${c.modifiers.incomingHitPenalty}"></label>
       <label>Incoming post-armour reduction % <input data-modifier="incomingPostArmourReduction" type="number" min="0" max="100" value="${c.modifiers.incomingPostArmourReduction}"></label>
       <label>Incoming first-hit reduction % <input data-modifier="incomingFirstHitReductionPercent" type="number" min="0" max="100" value="${c.modifiers.incomingFirstHitReductionPercent}"></label>
-      <label class="check"><input data-modifier-bool="secondArmourPassNonCrit" type="checkbox" ${isSecondArmour}> Second armour pass on non-crits</label>
-      <label class="check"><input data-modifier-bool="forceMaxVariance" type="checkbox" ${isMaxVariance}> Force max variance</label>
+      <label class="check"><input data-modifier-bool="secondArmourPassNonCrit" type="checkbox" ${isSecondArmour}> Mk X Gravis: second armour pass on non-crits</label>
+      <label class="check"><input data-modifier-bool="forceMaxVariance" type="checkbox" ${isMaxVariance}> Weaver of Fates: force max variance</label>
     </div>
+    <p class="trait-hint">Disclaimer: “Force max variance” is intended for Weaver of Fates-style effects. “Second armour pass on non-crits” is intended for Mk X Gravis-style effects. Damage-type exclusions and battlefield context are not fully automated.</p>
   </div>`;
 }
 
@@ -366,17 +407,34 @@ function bindCombatant(container, combatant, side) {
     render();
   }));
   container.querySelectorAll("[data-modifier]").forEach(input => {
-    const update=()=>{ const key=input.dataset.modifier; combatant.modifiers[key] = key==="template" ? input.value : Number(input.value) || 0; if(key==="template") render(); };
+    const update=()=>{ const key=input.dataset.modifier; combatant.modifiers[key] = Number(input.value) || 0; };
     input.addEventListener("input", update); input.addEventListener("change", update);
   });
+  const picker = container.querySelector("[data-trait-picker]");
+  if (picker) {
+    picker.addEventListener("change", () => {
+      combatant.modifiers.template = picker.value;
+      render();
+    });
+  }
   container.querySelectorAll("[data-modifier-bool]").forEach(input => {
     input.addEventListener("change", () => {
       combatant.modifiers[input.dataset.modifierBool] = input.checked;
       render();
     });
   });
-  const applyButton = container.querySelector("[data-apply-trait]");
-  if (applyButton) applyButton.addEventListener("click", () => { applyTraitPreset(combatant); render(); });
+  const addTraitButton = container.querySelector("[data-add-trait]");
+  if (addTraitButton) addTraitButton.addEventListener("click", () => { addTrait(combatant, combatant.modifiers.template); render(); });
+  const applyTraitsButton = container.querySelector("[data-apply-traits]");
+  if (applyTraitsButton) applyTraitsButton.addEventListener("click", () => { applySelectedTraits(combatant); render(); });
+  const clearTraitsButton = container.querySelector("[data-clear-traits]");
+  if (clearTraitsButton) clearTraitsButton.addEventListener("click", () => { combatant.modifiers.selectedTraits = []; render(); });
+  container.querySelectorAll("[data-remove-trait]").forEach(pill => {
+    pill.addEventListener("click", () => {
+      combatant.modifiers.selectedTraits = (combatant.modifiers.selectedTraits ?? []).filter(value => value !== pill.dataset.removeTrait);
+      render();
+    });
+  });
   const clearButton = container.querySelector("[data-clear-modifiers]");
   if (clearButton) clearButton.addEventListener("click", () => { combatant.modifiers = defaultModifiers(); render(); });
   container.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => {
@@ -434,9 +492,9 @@ function renderChart() {
   if(window.Chart) { if(state.chart) state.chart.destroy(); state.chart=new Chart(el.chartCanvas,{type:"bar",data:{labels:data.map(d=>d.label),datasets:[{label:"Rolls",data:data.map(d=>d.count)}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#bbb5a8"}},y:{ticks:{color:"#bbb5a8",precision:0}}}}}); }
 }
 
-function encounter() { return {type:"encounter",version:"1.2",player:state.player,boss:state.boss}; }
-function playerOnly() { return {type:"player",version:"1.2",player:state.player}; }
-function bossOnly() { return {type:"boss",version:"1.2",boss:state.boss}; }
+function encounter() { return {type:"encounter",version:"1.3",player:state.player,boss:state.boss}; }
+function playerOnly() { return {type:"player",version:"1.3",player:state.player}; }
+function bossOnly() { return {type:"boss",version:"1.3",boss:state.boss}; }
 function hydrateEncounter(d) { state.player=Combatant.from(d?.player??{},"Player"); state.boss=Combatant.from(d?.boss??{},"Boss"); state.activePlayerAttack=0; state.activeBossAttack=0; state.results=[]; render(); }
 function hydratePlayer(d) { state.player=Combatant.from(d?.player??d??{},"Player"); state.activePlayerAttack=0; state.results=[]; render(); }
 function hydrateBoss(d) { state.boss=Combatant.from(d?.boss??d??{},"Boss"); state.activeBossAttack=0; state.results=[]; render(); }
