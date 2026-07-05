@@ -1,51 +1,29 @@
 # Tacticus Damage Calculator
 
-v1.0 RC1
+v1.2
 
-A static browser-only Tacticus damage calculator for GitHub Pages.
+## New in v1.2
 
-## Features
+- Expanded trait dropdown using the supplied Tacticus wiki trait table.
+- Trait presets now auto-fill formula-relevant modifiers where possible.
+- Added outgoing percentage damage bonus.
+- Added incoming armour reduction percentage.
+- Added first-hit post-armour reduction percentage.
+- Added Mk X Gravis-style second armour pass toggle.
+- Added Weaver of Fates-style maximum variance toggle.
+- Non-formula traits are included as informational presets and do not alter damage unless you manually enter modifier values.
 
-- Player attack versus boss.
-- Boss normal attack plus up to three optional abilities.
-- Damage type pierce ratios.
-- Armour vs pierce formula.
-- Damage variance from 80% to 120%.
-- Min / expected / max damage.
-- 1–100 roll simulations.
-- Chained crit checks.
-- Chained block checks.
-- Flat block reduction after modifiers.
-- Terrain modifiers.
-- Damage distribution chart.
-- Combat log.
-- Optional full combat log for every roll.
-- Named local presets.
-- Export/import full encounter JSON.
-- Export/import player-only JSON.
-- Export/import boss-only JSON.
-- Copy results to clipboard.
-- Single bundled JavaScript file for reliable GitHub Pages deployment.
+## Notes
 
-## Files
+Some traits depend on battle context that the calculator does not currently model, such as:
+- melee vs ranged
+- range to target
+- summons
+- Big Target / Vehicle target tags
+- Psychic / Direct damage exclusions
+- unit deaths this battle
+- adjacency
+- movement this turn
+- specific round number
 
-```text
-index.html
-assets/css/style.css
-assets/js/app.js
-docs/deployment.md
-```
-
-## Deployment
-
-Upload the contents of this folder to the repository root.
-
-Then hard-refresh the GitHub Pages site with:
-
-```text
-Ctrl+F5
-```
-
-## Disclaimer
-
-This is an unofficial fan-made tool and is not affiliated with Snowprint Studios.
+For those, the dropdown gives a sensible formula preset where possible, but you may still need to manually adjust values.
