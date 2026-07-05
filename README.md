@@ -1,8 +1,10 @@
 # Tacticus Damage Calculator
 
-v0.7
+v0.8
 
-Adds:
-- Named presets
-- Export/import encounter, player-only, or boss-only JSON
-- Optional full combat log for every roll
+Fixes:
+- Storage module export mismatch from v0.7 deployment.
+- Adds a stable `clearAllPresets` export.
+- Keeps player/boss/encounter import-export.
+- Keeps named presets.
+- Keeps full combat log option.
