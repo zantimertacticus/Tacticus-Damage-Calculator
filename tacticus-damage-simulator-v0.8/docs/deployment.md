@@ -1,1 +1,0 @@
-Upload all files to the repository root and replace existing files. Then hard-refresh the live site with Ctrl+F5.

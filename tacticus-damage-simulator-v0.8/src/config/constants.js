@@ -1,1 +1,0 @@
-export const DAMAGE_VARIANCE={MIN:0.8,AVG:1,MAX:1.2};export const TERRAIN={HIGH_GROUND:.5,RAZOR_WIRE:.5,TRENCH:-.5};export const STORAGE_KEYS={PRESETS:'tdc_named_presets_v08'};
