@@ -5,25 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Tacticus Damage Simulator</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header class="app-header">
     <div>
-      <p class="eyebrow">Unofficial fan tool, created by zantimer</p>
+      <p class="eyebrow">Unofficial fan tool</p>
       <h1>Tacticus Damage Simulator</h1>
-      <p class="subtitle">Calculate expected damage, roll simulations, and inspect hit-by-hit combat logs.</p>
+      <p class="subtitle">Expected damage, roll simulation, crit chains, block chains, terrain and pierce math.</p>
     </div>
-    <div class="version">v0.3</div>
+    <div class="version">v0.5 beta</div>
   </header>
 
   <nav class="toolbar">
     <button id="savePresetBtn">Save Preset</button>
     <button id="loadPresetBtn">Load Preset</button>
     <button id="exportBtn">Export JSON</button>
-    <label class="file-button">
-      Import JSON
-      <input id="importInput" type="file" accept="application/json">
-    </label>
+    <label class="file-button">Import JSON<input id="importInput" type="file" accept="application/json"></label>
     <button id="clearBtn" class="danger">Clear</button>
   </nav>
 
@@ -34,24 +32,15 @@
     <section class="panel simulation-panel">
       <h2>Simulation</h2>
       <div class="form-grid compact">
-        <label>
-          Rolls
-          <input id="rollCount" type="number" min="1" max="100" value="100">
-        </label>
-        <label class="check">
-          <input id="showLog" type="checkbox" checked>
-          Show combat log
-        </label>
-        <label class="check">
-          <input id="showHistogram" type="checkbox" checked>
-          Show histogram
-        </label>
+        <label>Rolls, 1–100 <input id="rollCount" type="number" min="1" max="100" value="100"></label>
+        <label class="check"><input id="showLog" type="checkbox" checked> Show combat log</label>
+        <label class="check"><input id="showChart" type="checkbox" checked> Show chart</label>
       </div>
       <div class="actions">
         <button id="calculateBtn" class="primary">Calculate</button>
-        <button id="rollBtn">Roll Damage</button>
+        <button id="rollBtn">Roll Again</button>
       </div>
-      <p class="hint">Current results show player attacking boss, then enabled boss attacks against the player.</p>
+      <div id="validation" class="validation"></div>
     </section>
 
     <section class="panel results-panel">
@@ -59,22 +48,21 @@
       <div id="results"></div>
     </section>
 
+    <section class="panel chart-panel">
+      <h2>Player Damage Distribution</h2>
+      <canvas id="damageChart" height="120"></canvas>
+      <div id="chartFallback" class="histogram"></div>
+    </section>
+
     <section class="panel log-panel">
       <details open>
-        <summary>Combat Log</summary>
+        <summary>Combat Log: first roll for each attack</summary>
         <div id="combatLog" class="combat-log"></div>
       </details>
     </section>
-
-    <section class="panel histogram-panel">
-      <h2>Damage Distribution</h2>
-      <div id="histogram" class="histogram"></div>
-    </section>
   </main>
 
-  <footer class="app-footer">
-    Tacticus Damage Simulator · Browser-only · GitHub Pages ready
-  </footer>
+  <footer class="app-footer">Tacticus Damage Simulator · Static web app · GitHub Pages ready</footer>
 
   <script type="module" src="src/ui/app.js"></script>
 </body>

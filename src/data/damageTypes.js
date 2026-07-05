@@ -1,4 +1,4 @@
-export const DAMAGE_TYPES = [
+export const DAMAGE_TYPES=[
   {
     "name": "Bio",
     "pierce": 0.3
@@ -84,7 +84,4 @@ export const DAMAGE_TYPES = [
     "pierce": 0.7
   }
 ];
-
-export function getPierceRatio(name) {
-  return DAMAGE_TYPES.find(d => d.name === name)?.pierce ?? 0;
-}
+export function getPierceRatio(name){return DAMAGE_TYPES.find(d=>d.name===name)?.pierce??0;}

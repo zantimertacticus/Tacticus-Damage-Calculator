@@ -1,22 +1,5 @@
 import Attack from "./Attack.js";
-
-export default class Combatant {
-  constructor(name = "") {
-    this.name = name;
-    this.health = 0;
-    this.armour = 0;
-    this.blockChance = 0;
-    this.blockDamage = 0;
-    this.terrain = {
-      highGround: false,
-      razorWire: false,
-      trench: false
-    };
-    this.attacks = [
-      new Attack("Attack", true),
-      new Attack("Ability 1", false),
-      new Attack("Ability 2", false),
-      new Attack("Ability 3", false)
-    ];
-  }
+export default class Combatant{
+  constructor(name=""){this.name=name;this.health=0;this.armour=0;this.blockChance=0;this.blockDamage=0;this.terrain={highGround:false,razorWire:false,trench:false};this.attacks=[new Attack("Attack",true),new Attack("Ability 1",false),new Attack("Ability 2",false),new Attack("Ability 3",false)];}
+  static from(raw={},name=""){const c=new Combatant(raw.name??name);c.health=Number(raw.health)||0;c.armour=Number(raw.armour)||0;c.blockChance=Number(raw.blockChance)||0;c.blockDamage=Number(raw.blockDamage)||0;c.terrain={highGround:Boolean(raw.terrain?.highGround),razorWire:Boolean(raw.terrain?.razorWire),trench:Boolean(raw.terrain?.trench)};const names=["Attack","Ability 1","Ability 2","Ability 3"];c.attacks=names.map((n,i)=>Attack.from(raw.attacks?.[i]??{},n,i===0));return c;}
 }
