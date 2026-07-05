@@ -1,6 +1,12 @@
+import { getPierceRatio } from "../data/damageTypes.js";
+
 export default class Attack {
 
-    constructor(name = "Attack") {
+    constructor(name = "Attack", enabled = true) {
+
+        this.id = crypto.randomUUID();
+
+        this.enabled = enabled;
 
         this.name = name;
 
@@ -10,9 +16,19 @@ export default class Attack {
 
         this.damageType = "Physical";
 
+        this.pierceRatio = getPierceRatio("Physical");
+
         this.critChance = 0;
 
         this.critDamage = 0;
+
+    }
+
+    setDamageType(type) {
+
+        this.damageType = type;
+
+        this.pierceRatio = getPierceRatio(type);
 
     }
 
