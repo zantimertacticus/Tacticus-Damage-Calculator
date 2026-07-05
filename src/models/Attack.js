@@ -1,6 +1,1 @@
-import { getPierceRatio } from "../data/damageTypes.js";
-export default class Attack{
-  constructor(name="Attack",enabled=true){this.enabled=enabled;this.name=name;this.damage=0;this.hits=1;this.damageType="Physical";this.pierceRatio=getPierceRatio("Physical");this.critChance=0;this.critDamage=0;}
-  setDamageType(type){this.damageType=type;this.pierceRatio=getPierceRatio(type);}
-  static from(raw={},name="Attack",enabled=true){const a=new Attack(raw.name??name,raw.enabled??enabled);a.damage=Number(raw.damage)||0;a.hits=Math.max(1,Math.floor(Number(raw.hits)||1));a.setDamageType(raw.damageType??"Physical");a.critChance=Number(raw.critChance)||0;a.critDamage=Number(raw.critDamage)||0;return a;}
-}
+import { getPierceRatio } from "../data/damageTypes.js";export default class Attack{constructor(name="Attack",enabled=true){this.enabled=enabled;this.name=name;this.damage=0;this.hits=1;this.damageType="Physical";this.pierceRatio=getPierceRatio("Physical");this.critChance=0;this.critDamage=0;}setDamageType(t){this.damageType=t;this.pierceRatio=getPierceRatio(t);}static from(raw={},name="Attack",enabled=true){const a=new Attack(raw.name??name,raw.enabled??enabled);a.damage=Number(raw.damage)||0;a.hits=Math.max(1,Math.floor(Number(raw.hits)||1));a.setDamageType(raw.damageType??"Physical");a.critChance=Number(raw.critChance)||0;a.critDamage=Number(raw.critDamage)||0;return a;}}
