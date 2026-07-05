@@ -267,6 +267,7 @@ const el = {
   exportPlayer: document.querySelector("#exportPlayerBtn"),
   exportBoss: document.querySelector("#exportBossBtn"),
   import: document.querySelector("#importInput"),
+  copyResults: document.querySelector("#copyResultsBtn"),
   clear: document.querySelector("#clearBtn")
 };
 
@@ -480,9 +481,9 @@ function renderChart() {
   }
 }
 
-function encounter() { return { type: "encounter", version: "0.9", player: state.player, boss: state.boss }; }
-function playerOnly() { return { type: "player", version: "0.9", player: state.player }; }
-function bossOnly() { return { type: "boss", version: "0.9", boss: state.boss }; }
+function encounter() { return { type: "encounter", version: "1.0-rc1", player: state.player, boss: state.boss }; }
+function playerOnly() { return { type: "player", version: "1.0-rc1", player: state.player }; }
+function bossOnly() { return { type: "boss", version: "1.0-rc1", boss: state.boss }; }
 
 function hydrateEncounter(d) {
   state.player = Combatant.from(d?.player ?? {}, "Player");
@@ -530,6 +531,24 @@ function render() {
   }
 }
 
+
+function resultsAsText() {
+  if (!state.results.length) return "No results calculated yet.";
+  return state.results.map(r => {
+    return [
+      `${r.direction}: ${r.name}`,
+      `Expected: ${fmt(r.expected)}`,
+      `Minimum: ${fmt(r.minimum)}`,
+      `Maximum: ${fmt(r.maximum)}`,
+      `Simulation average: ${fmt(r.simulationAverage)}`,
+      `Lowest roll: ${fmt(r.lowest)}`,
+      `Highest roll: ${fmt(r.highest)}`,
+      `Crit hits: ${r.crits}`,
+      `Blocked hits: ${r.blocks}`
+    ].join("\n");
+  }).join("\n\n");
+}
+
 el.calculate.addEventListener("click", run);
 el.roll.addEventListener("click", run);
 el.showLog.addEventListener("change", renderLog);
@@ -572,6 +591,19 @@ el.clear.addEventListener("click", () => {
 el.exportEncounter.addEventListener("click", () => downloadJson("tacticus-encounter.json", encounter()));
 el.exportPlayer.addEventListener("click", () => downloadJson("tacticus-player.json", playerOnly()));
 el.exportBoss.addEventListener("click", () => downloadJson("tacticus-boss.json", bossOnly()));
+
+
+if (el.copyResults) {
+  el.copyResults.addEventListener("click", async () => {
+    const text = resultsAsText();
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Results copied to clipboard.");
+    } catch {
+      prompt("Copy results:", text);
+    }
+  });
+}
 
 el.import.addEventListener("change", async () => {
   const file = el.import.files[0];
