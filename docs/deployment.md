@@ -1,1 +1,1 @@
-Upload all files to the repository root and replace existing files. Then hard-refresh the live site with Ctrl+F5.
+Upload all files to the repo root. Wait for GitHub Pages to finish deploying, then hard-refresh with Ctrl+F5.
