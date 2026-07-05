@@ -1,33 +1,30 @@
-# Tacticus Damage Simulator
+# Tacticus Damage Calculator
 
-A static, browser-only combat simulator for **Warhammer 40,000: Tacticus**.
+Static GitHub Pages build.
 
 ## Version
 
-**v0.5** — usable beta.
+v0.6 — GitHub Pages stability build.
 
-## Features
+## Upload instructions
 
-- Player attack versus boss.
-- Boss normal attack plus up to three optional abilities.
-- Min / expected / max damage.
-- 1–100 attack simulations.
-- Chained crit checks.
-- Chained block checks.
-- Flat block reduction per hit after modifiers.
-- Armour vs pierce formula.
-- Terrain modifiers.
-- Damage distribution chart.
-- Expandable combat log.
-- Browser preset saving.
-- JSON import/export.
-- Responsive layout.
+Upload the contents of this folder to your repository root:
 
-## Running locally
+```text
+index.html
+README.md
+assets/
+src/
+docs/
+```
 
-Open `index.html` in a browser.
+Then GitHub Pages should serve:
 
-If your browser blocks ES modules from local files, run a tiny local server:
+```text
+https://zantimertacticus.github.io/Tacticus-Damage-Calculator/
+```
+
+## Local test
 
 ```bash
 python -m http.server 8000
@@ -38,20 +35,3 @@ Then open:
 ```text
 http://localhost:8000
 ```
-
-## GitHub Pages
-
-1. Create a GitHub repository.
-2. Upload all project files.
-3. Go to **Settings → Pages**.
-4. Set source to your main branch.
-5. Save.
-6. Your app will be live at:
-
-```text
-https://YOURUSERNAME.github.io/tacticus-damage-simulator/
-```
-
-## Disclaimer
-
-Warhammer 40,000: Tacticus belongs to Snowprint Studios. This is an unofficial fan-made tool.
