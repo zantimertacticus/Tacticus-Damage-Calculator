@@ -10,7 +10,6 @@ v1.3
 - Clearer labels/disclaimers:
   - Max variance toggle is specifically for Weaver of Fates-style effects.
   - Second armour pass toggle is specifically for Mk X Gravis-style effects.
-- Header now says: Unofficial Fan Tool, made by zantimer.
 
 ## Notes
 
