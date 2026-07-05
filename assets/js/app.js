@@ -5,7 +5,7 @@
 const DAMAGE_TYPES = [{"name": "Bio", "pierce": 0.3}, {"name": "Blast", "pierce": 0.15}, {"name": "Bolter", "pierce": 0.2}, {"name": "Chain", "pierce": 0.2}, {"name": "Direct", "pierce": 1}, {"name": "Energy", "pierce": 0.3}, {"name": "Eviscerating", "pierce": 0.5}, {"name": "Flame", "pierce": 0.25}, {"name": "Heavy Round", "pierce": 0.55}, {"name": "Las", "pierce": 0.1}, {"name": "Melta", "pierce": 0.75}, {"name": "Molecular", "pierce": 0.6}, {"name": "Particle", "pierce": 0.35}, {"name": "Physical", "pierce": 0.01}, {"name": "Piercing", "pierce": 0.8}, {"name": "Plasma", "pierce": 0.65}, {"name": "Power", "pierce": 0.4}, {"name": "Projectile", "pierce": 0.15}, {"name": "Psychic", "pierce": 1}, {"name": "Pulse", "pierce": 0.2}, {"name": "Toxic", "pierce": 0.7}];
 const DAMAGE_VARIANCE = { MIN: 0.8, AVG: 1, MAX: 1.2 };
 const TERRAIN = { HIGH_GROUND: 0.5, RAZOR_WIRE: 0.5, TRENCH: -0.5 };
-const STORAGE_KEY = "tdc_named_presets_v13";
+const STORAGE_KEY = "tdc_named_presets_v14";
 
 const TRAIT_TEMPLATES = [
   { value: "custom", label: "Custom / Manual", hint: "Manual modifier entry.", apply: {} },
@@ -268,7 +268,7 @@ const el = {
   results: document.querySelector("#results"), log: document.querySelector("#combatLog"),
   chartCanvas: document.querySelector("#damageChart"), fallback: document.querySelector("#chartFallback"),
   validation: document.querySelector("#validation"), rollCount: document.querySelector("#rollCount"),
-  showLog: document.querySelector("#showLog"), showChart: document.querySelector("#showChart"), fullLog: document.querySelector("#fullLog"),
+  showLog: document.querySelector("#showLog"), showChart: document.querySelector("#showChart"), fullLog: document.querySelector("#fullLog"), calcPlayerToBoss: document.querySelector("#calcPlayerToBoss"), calcBossToPlayer: document.querySelector("#calcBossToPlayer"),
   calculate: document.querySelector("#calculateBtn"), roll: document.querySelector("#rollBtn"), copy: document.querySelector("#copyResultsBtn"),
   presetName: document.querySelector("#presetName"), presetSelect: document.querySelector("#presetSelect"),
   save: document.querySelector("#savePresetBtn"), load: document.querySelector("#loadPresetBtn"), deletePreset: document.querySelector("#deletePresetBtn"),
@@ -463,13 +463,17 @@ function validate() {
 function run() {
   const rolls=Math.min(100,integer(el.rollCount.value,1)); el.rollCount.value=rolls; validate();
   const res=[];
-  state.player.attacks.filter(a=>a.enabled).forEach(a=>res.push({direction:"Player → Boss",...analyseAttack(state.player,state.boss,a,"playerToBoss",rolls)}));
-  state.boss.attacks.filter(a=>a.enabled).forEach(a=>res.push({direction:"Boss → Player",...analyseAttack(state.boss,state.player,a,"bossToPlayer",rolls)}));
+  if (el.calcPlayerToBoss.checked) {
+    state.player.attacks.filter(a=>a.enabled).forEach(a=>res.push({direction:"Player → Boss",...analyseAttack(state.player,state.boss,a,"playerToBoss",rolls)}));
+  }
+  if (el.calcBossToPlayer.checked) {
+    state.boss.attacks.filter(a=>a.enabled).forEach(a=>res.push({direction:"Boss → Player",...analyseAttack(state.boss,state.player,a,"bossToPlayer",rolls)}));
+  }
   state.results=res; renderResults(); renderLog(); renderChart();
 }
 
 function renderResults() {
-  if(!state.results.length) { el.results.innerHTML=`<p class="hint">Enter stats and press Calculate.</p>`; return; }
+  if(!state.results.length) { el.results.innerHTML=`<p class="hint">Enter stats, choose calculation direction, and press Calculate.</p>`; return; }
   el.results.innerHTML=state.results.map(r=>`<div class="result-group"><h3>${r.direction}: ${r.name}</h3><div class="results-grid">${["expected","minimum","maximum","simulationAverage","lowest","highest"].map(k=>`<div class="metric"><span>${k}</span><strong>${fmt(r[k])}</strong></div>`).join("")}<div class="metric"><span>Crit hits</span><strong>${r.crits}</strong></div><div class="metric"><span>Blocked hits</span><strong>${r.blocks}</strong></div></div></div>`).join("");
 }
 
@@ -487,14 +491,20 @@ function buckets(v) {
 
 function renderChart() {
   if(!el.showChart.checked||!state.results.length) { el.chartCanvas.style.display="none"; el.fallback.innerHTML=`<p class="hint">Chart hidden.</p>`; if(state.chart){state.chart.destroy();state.chart=null;} return; }
-  const playerResult=state.results.find(r=>r.direction==="Player → Boss")||state.results[0];
+  const playerResult=state.results.find(r=>r.direction==="Player → Boss");
+  if (!playerResult) {
+    el.chartCanvas.style.display="none";
+    el.fallback.innerHTML=`<p class="hint">Chart uses Player → Boss simulation data. Enable Player → Boss to show it.</p>`;
+    if(state.chart){state.chart.destroy();state.chart=null;}
+    return;
+  }
   el.chartCanvas.style.display="block"; const data=buckets(playerResult.simulations); el.fallback.innerHTML="";
   if(window.Chart) { if(state.chart) state.chart.destroy(); state.chart=new Chart(el.chartCanvas,{type:"bar",data:{labels:data.map(d=>d.label),datasets:[{label:"Rolls",data:data.map(d=>d.count)}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#bbb5a8"}},y:{ticks:{color:"#bbb5a8",precision:0}}}}}); }
 }
 
-function encounter() { return {type:"encounter",version:"1.3",player:state.player,boss:state.boss}; }
-function playerOnly() { return {type:"player",version:"1.3",player:state.player}; }
-function bossOnly() { return {type:"boss",version:"1.3",boss:state.boss}; }
+function encounter() { return {type:"encounter",version:"1.4",player:state.player,boss:state.boss}; }
+function playerOnly() { return {type:"player",version:"1.4",player:state.player}; }
+function bossOnly() { return {type:"boss",version:"1.4",boss:state.boss}; }
 function hydrateEncounter(d) { state.player=Combatant.from(d?.player??{},"Player"); state.boss=Combatant.from(d?.boss??{},"Boss"); state.activePlayerAttack=0; state.activeBossAttack=0; state.results=[]; render(); }
 function hydratePlayer(d) { state.player=Combatant.from(d?.player??d??{},"Player"); state.activePlayerAttack=0; state.results=[]; render(); }
 function hydrateBoss(d) { state.boss=Combatant.from(d?.boss??d??{},"Boss"); state.activeBossAttack=0; state.results=[]; render(); }

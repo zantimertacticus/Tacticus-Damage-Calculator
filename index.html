@@ -6,7 +6,7 @@
   <title>Tacticus Damage Calculator</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="./assets/js/app.js?v=1.3"></script>
+  <script defer src="./assets/js/app.js?v=1.4"></script>
 </head>
 <body>
 <header class="app-header">
@@ -15,7 +15,7 @@
     <h1>Tacticus Damage Calculator</h1>
     <p class="subtitle">Damage simulation with crit chains, block chains, traits, buffs, penalties and reductions.</p>
   </div>
-  <div class="version">v1.3</div>
+  <div class="version">v1.4</div>
 </header>
 
 <nav class="toolbar">
@@ -44,6 +44,8 @@
       <label class="check"><input id="showLog" type="checkbox" checked> Show combat log</label>
       <label class="check"><input id="showChart" type="checkbox" checked> Show chart</label>
       <label class="check"><input id="fullLog" type="checkbox"> Full log: every roll</label>
+      <label class="check"><input id="calcPlayerToBoss" type="checkbox" checked> Calculate Player → Boss</label>
+      <label class="check"><input id="calcBossToPlayer" type="checkbox" checked> Calculate Boss → Player</label>
     </div>
     <div class="actions">
       <button id="calculateBtn" class="primary">Calculate</button>
