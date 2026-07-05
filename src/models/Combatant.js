@@ -24,17 +24,17 @@ export default class Combatant {
 
         };
 
-        this.attacks = [
+this.attacks = [
 
-            new Attack("Attack"),
+    new Attack("Attack", true),
 
-            new Attack("Ability 1"),
+    new Attack("Ability 1", false),
 
-            new Attack("Ability 2"),
+    new Attack("Ability 2", false),
 
-            new Attack("Ability 3")
+    new Attack("Ability 3", false)
 
-        ];
+];
 
     }
 
