@@ -5,7 +5,119 @@
 const DAMAGE_TYPES = [{"name": "Bio", "pierce": 0.3}, {"name": "Blast", "pierce": 0.15}, {"name": "Bolter", "pierce": 0.2}, {"name": "Chain", "pierce": 0.2}, {"name": "Direct", "pierce": 1}, {"name": "Energy", "pierce": 0.3}, {"name": "Eviscerating", "pierce": 0.5}, {"name": "Flame", "pierce": 0.25}, {"name": "Heavy Round", "pierce": 0.55}, {"name": "Las", "pierce": 0.1}, {"name": "Melta", "pierce": 0.75}, {"name": "Molecular", "pierce": 0.6}, {"name": "Particle", "pierce": 0.35}, {"name": "Physical", "pierce": 0.01}, {"name": "Piercing", "pierce": 0.8}, {"name": "Plasma", "pierce": 0.65}, {"name": "Power", "pierce": 0.4}, {"name": "Projectile", "pierce": 0.15}, {"name": "Psychic", "pierce": 1}, {"name": "Pulse", "pierce": 0.2}, {"name": "Toxic", "pierce": 0.7}];
 const DAMAGE_VARIANCE = { MIN: 0.8, AVG: 1, MAX: 1.2 };
 const TERRAIN = { HIGH_GROUND: 0.5, RAZOR_WIRE: 0.5, TRENCH: -0.5 };
-const STORAGE_KEY = "tdc_named_presets_v15";
+const STORAGE_KEY = "tdc_named_presets_v17";
+const GAME_DATA_URL = "./assets/data/tacticus-game-data.json";
+const RANK_NAMES = [
+  "Stone I", "Stone II", "Stone III",
+  "Iron I", "Iron II", "Iron III",
+  "Bronze I", "Bronze II", "Bronze III",
+  "Silver I", "Silver II", "Silver III",
+  "Gold I", "Gold II", "Gold III",
+  "Diamond I", "Diamond II", "Diamond III",
+  "Adamantine I", "Mythic"
+];
+
+let GAME_DATA = null;
+
+function getCharacters() {
+  return GAME_DATA?.characters ?? {};
+}
+
+function characterEntries() {
+  return Object.entries(getCharacters())
+    .filter(([, c]) => c && c.stats && Array.isArray(c.weapons) && c.upgrades)
+    .sort((a, b) => (a[1].name ?? a[0]).localeCompare(b[1].name ?? b[0]));
+}
+
+function rankName(index) {
+  return RANK_NAMES[index] ?? `Rank ${index + 1}`;
+}
+
+function characterRankCount(character) {
+  return Math.min(character?.upgrades?.length ?? 0, character?.upgradesStatIncrease?.length ?? 0, RANK_NAMES.length);
+}
+
+function defaultDatabaseSelection() {
+  return {
+    enabled: false,
+    characterId: "",
+    rankIndex: 0,
+    appliedUpgrades: [false, false, false, false, false, false],
+    weaponIndex: 0
+  };
+}
+
+async function loadGameData() {
+  try {
+    const response = await fetch(GAME_DATA_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    GAME_DATA = await response.json();
+  } catch (error) {
+    console.warn("Game data unavailable:", error);
+    GAME_DATA = null;
+  }
+}
+
+function deriveStatsFromCharacter(selection) {
+  const character = getCharacters()[selection.characterId];
+  if (!character) return null;
+
+  const base = character.stats ?? {};
+  let health = Number(base.Health) || 0;
+  let damage = Number(base.Damage) || 0;
+  let armour = Number(base.FixedArmor) || 0;
+
+  const rankIndex = Math.max(0, Math.min(Number(selection.rankIndex) || 0, characterRankCount(character) - 1));
+  const increases = character.upgradesStatIncrease?.[rankIndex] ?? [];
+  const upgradeIds = character.upgrades?.[rankIndex] ?? [];
+  const applied = selection.appliedUpgrades ?? [false, false, false, false, false, false];
+
+  applied.forEach((isApplied, i) => {
+    if (!isApplied) return;
+    const amount = Number(increases[i]) || 0;
+    const id = upgradeIds[i] ?? "";
+    if (id.includes("upgHp")) health += amount;
+    else if (id.includes("upgDmg")) damage += amount;
+    else if (id.includes("upgArm")) armour += amount;
+  });
+
+  const weapon = character.weapons?.[selection.weaponIndex] ?? character.weapons?.[0] ?? { hits: 1, DamageProfile: "Physical" };
+
+  return {
+    name: character.name ?? selection.characterId,
+    health,
+    damage,
+    armour,
+    hits: Number(weapon.hits) || 1,
+    damageType: weapon.DamageProfile ?? "Physical",
+    traits: character.traits ?? [],
+    activeAbilities: character.activeAbilities ?? [],
+    passiveAbilities: character.passiveAbilities ?? [],
+    weapon,
+    rankIndex,
+    upgradeIds,
+    upgradeIncreases: increases,
+    appliedUpgrades: applied
+  };
+}
+
+function applyDatabaseSelectionToCombatant(combatant) {
+  if (!combatant.database?.enabled) return;
+  const derived = deriveStatsFromCharacter(combatant.database);
+  if (!derived) return;
+
+  combatant.name = derived.name;
+  combatant.health = derived.health;
+  combatant.armour = derived.armour;
+
+  const attack = combatant.attacks[0];
+  attack.damage = derived.damage;
+  attack.hits = derived.hits;
+  attack.damageType = derived.damageType;
+  attack.pierceRatio = getPierceRatio(derived.damageType);
+}
+
+
 
 const TRAIT_TEMPLATES = [
   { value: "custom", label: "Custom / Manual", hint: "Manual modifier entry.", apply: {} },
@@ -102,6 +214,7 @@ class Combatant {
     this.blockDamage = 0;
     this.terrain = { highGround: false, razorWire: false, trench: false };
     this.modifiers = defaultModifiers();
+    this.database = defaultDatabaseSelection();
     this.attacks = [
       new Attack("Attack", true),
       new Attack("Extra Attack", false),
@@ -121,7 +234,8 @@ class Combatant {
       razorWire: Boolean(raw.terrain?.razorWire),
       trench: Boolean(raw.terrain?.trench)
     };
-    c.modifiers = { ...defaultModifiers(), ...(raw.modifiers ?? {}) }; c.modifiers.selectedTraits = Array.isArray(c.modifiers.selectedTraits) ? c.modifiers.selectedTraits : [];
+    c.modifiers = { ...defaultModifiers(), ...(raw.modifiers ?? {}) };
+    c.database = { ...defaultDatabaseSelection(), ...(raw.database ?? {}) }; c.database.appliedUpgrades = Array.isArray(c.database.appliedUpgrades) ? c.database.appliedUpgrades : [false,false,false,false,false,false]; c.modifiers.selectedTraits = Array.isArray(c.modifiers.selectedTraits) ? c.modifiers.selectedTraits : [];
     const names = name === "Player"
       ? ["Attack", "Extra Attack"]
       : ["Attack", "Ability 1", "Ability 2", "Ability 3"];
@@ -316,11 +430,89 @@ function applySelectedTraits(combatant) {
 }
 
 
+
+function renderDatabaseSelector(combatant, side) {
+  const entries = characterEntries();
+  const db = combatant.database ?? defaultDatabaseSelection();
+  const selectedCharacter = getCharacters()[db.characterId];
+  const rankCount = selectedCharacter ? characterRankCount(selectedCharacter) : 0;
+  const ranks = Array.from({ length: rankCount }, (_, i) => `<option value="${i}" ${i === Number(db.rankIndex) ? "selected" : ""}>${rankName(i)}</option>`).join("");
+  const chars = entries.map(([id, c]) => `<option value="${id}" ${id === db.characterId ? "selected" : ""}>${c.name ?? id}</option>`).join("");
+  const weapons = selectedCharacter?.weapons?.map((w, i) => `<option value="${i}" ${i === Number(db.weaponIndex) ? "selected" : ""}>Weapon ${i + 1}: ${w.hits ?? 1} hit(s), ${w.DamageProfile ?? "Physical"}${w.Range ? `, range ${w.Range}` : ""}</option>`).join("") ?? "";
+  const derived = db.enabled ? deriveStatsFromCharacter(db) : null;
+  const upgrades = selectedCharacter && rankCount
+    ? (selectedCharacter.upgrades?.[Number(db.rankIndex) || 0] ?? []).map((id, i) => {
+        const inc = selectedCharacter.upgradesStatIncrease?.[Number(db.rankIndex) || 0]?.[i] ?? 0;
+        const checked = db.appliedUpgrades?.[i] ? "checked" : "";
+        return `<label class="check"><input data-upgrade-slot="${i}" type="checkbox" ${checked}> Slot ${i + 1}: ${id} (+${inc})</label>`;
+      }).join("")
+    : `<p class="hint">Select a character to show upgrade slots.</p>`;
+
+  return `<div class="modifier-card">
+    <div class="section-title">Game data selector</div>
+    <label class="check"><input data-db-enabled type="checkbox" ${db.enabled ? "checked" : ""}> Use game configuration data for this ${side}</label>
+    <div class="form-grid">
+      <label>Character <select data-db-character><option value="">Manual / Custom</option>${chars}</select></label>
+      <label>Gear rank <select data-db-rank ${selectedCharacter ? "" : "disabled"}>${ranks}</select></label>
+      <label>Weapon <select data-db-weapon ${selectedCharacter ? "" : "disabled"}>${weapons}</select></label>
+    </div>
+    <div class="section-title">Rank upgrade slots</div>
+    <p class="trait-hint">Each rank starts with all six upgrades unapplied. Applying all six does not auto-rank the character.</p>
+    <div class="terrain-row">${upgrades}</div>
+    ${derived ? `<p class="trait-hint">Loaded: HP ${fmt(derived.health)}, Damage ${fmt(derived.damage)}, Armour ${fmt(derived.armour)}, Hits ${fmt(derived.hits)}, Damage type ${derived.damageType}. Traits: ${(derived.traits ?? []).join(", ") || "none"}.</p>` : ""}
+  </div>`;
+}
+
+function bindDatabaseSelector(container, combatant) {
+  const enabled = container.querySelector("[data-db-enabled]");
+  if (enabled) enabled.addEventListener("change", () => {
+    combatant.database.enabled = enabled.checked;
+    applyDatabaseSelectionToCombatant(combatant);
+    render();
+  });
+
+  const character = container.querySelector("[data-db-character]");
+  if (character) character.addEventListener("change", () => {
+    combatant.database.characterId = character.value;
+    combatant.database.rankIndex = 0;
+    combatant.database.weaponIndex = 0;
+    combatant.database.appliedUpgrades = [false, false, false, false, false, false];
+    combatant.database.enabled = Boolean(character.value);
+    applyDatabaseSelectionToCombatant(combatant);
+    render();
+  });
+
+  const rank = container.querySelector("[data-db-rank]");
+  if (rank) rank.addEventListener("change", () => {
+    combatant.database.rankIndex = Number(rank.value) || 0;
+    combatant.database.appliedUpgrades = [false, false, false, false, false, false];
+    applyDatabaseSelectionToCombatant(combatant);
+    render();
+  });
+
+  const weapon = container.querySelector("[data-db-weapon]");
+  if (weapon) weapon.addEventListener("change", () => {
+    combatant.database.weaponIndex = Number(weapon.value) || 0;
+    applyDatabaseSelectionToCombatant(combatant);
+    render();
+  });
+
+  container.querySelectorAll("[data-upgrade-slot]").forEach(input => {
+    input.addEventListener("change", () => {
+      const index = Number(input.dataset.upgradeSlot);
+      combatant.database.appliedUpgrades[index] = input.checked;
+      applyDatabaseSelectionToCombatant(combatant);
+      render();
+    });
+  });
+}
+
 function renderCombatant(container, combatant, side) {
   const isBoss = side === "boss";
   const activeIndex = isBoss ? state.activeBossAttack : state.activePlayerAttack;
   const attack = combatant.attacks[activeIndex];
   container.innerHTML = `<h2>${combatant.name}</h2>
+    ${renderDatabaseSelector(combatant, side)}
     <div class="section-title">Defender stats</div>
     <div class="form-grid">
       <label>Health <input data-field="health" type="number" min="0" value="${combatant.health}"></label>
@@ -397,6 +589,7 @@ function renderAttack(a, side) {
 }
 
 function bindCombatant(container, combatant, side) {
+  bindDatabaseSelector(container, combatant);
   container.querySelectorAll("[data-field]").forEach(input => input.addEventListener("input", () => {
     combatant[input.dataset.field] = input.dataset.field.includes("Chance") ? chance(input.value) : n(input.value);
   }));
@@ -461,6 +654,8 @@ function validate() {
 }
 
 function run() {
+  applyDatabaseSelectionToCombatant(state.player);
+  applyDatabaseSelectionToCombatant(state.boss);
   const rolls=Math.min(100,integer(el.rollCount.value,1)); el.rollCount.value=rolls; validate();
   const res=[];
   if (el.calcPlayerToBoss.checked) {
