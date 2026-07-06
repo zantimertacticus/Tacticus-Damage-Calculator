@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tacticus Damage Calculator</title>
+  <title>Tacticus Combat Simulator</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="./assets/js/app.js?v=1.4"></script>
+  <script defer src="./assets/js/app.js?v=1.6"></script>
 </head>
 <body>
 <header class="app-header">
   <div>
     <p class="eyebrow">Unofficial Fan Tool, made by zantimer</p>
-    <h1>Tacticus Damage Calculator</h1>
+    <h1>Tacticus Combat Simulator</h1>
     <p class="subtitle">Damage simulation with crit chains, block chains, traits, buffs, penalties and reductions.</p>
   </div>
-  <div class="version">v1.4</div>
+  <div class="version">v1.6</div>
 </header>
 
 <nav class="toolbar">
@@ -34,6 +34,13 @@
 <div id="startupError" class="startup-error" hidden></div>
 
 <main class="app-shell">
+  <section class="panel data-panel">
+    <h2>Game Data Foundation</h2>
+    <p id="dataStatus" class="hint">Loading local Tacticus data...</p>
+    <div id="dataSummary" class="results-grid"></div>
+    <p class="hint">Reserved encounter model: Boss + 2 adjutants/bodyguards using the same rules as other combatants.</p>
+  </section>
+
   <section class="panel" id="playerPanel"><h2>Player</h2><p class="hint">Loading...</p></section>
   <section class="panel" id="bossPanel"><h2>Boss</h2><p class="hint">Loading...</p></section>
 
@@ -71,6 +78,6 @@
   </section>
 </main>
 
-<footer class="app-footer">Tacticus Damage Calculator · GitHub Pages ready</footer>
+<footer class="app-footer">Tacticus Combat Simulator · GitHub Pages ready</footer>
 </body>
 </html>

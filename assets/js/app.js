@@ -5,7 +5,7 @@
 const DAMAGE_TYPES = [{"name": "Bio", "pierce": 0.3}, {"name": "Blast", "pierce": 0.15}, {"name": "Bolter", "pierce": 0.2}, {"name": "Chain", "pierce": 0.2}, {"name": "Direct", "pierce": 1}, {"name": "Energy", "pierce": 0.3}, {"name": "Eviscerating", "pierce": 0.5}, {"name": "Flame", "pierce": 0.25}, {"name": "Heavy Round", "pierce": 0.55}, {"name": "Las", "pierce": 0.1}, {"name": "Melta", "pierce": 0.75}, {"name": "Molecular", "pierce": 0.6}, {"name": "Particle", "pierce": 0.35}, {"name": "Physical", "pierce": 0.01}, {"name": "Piercing", "pierce": 0.8}, {"name": "Plasma", "pierce": 0.65}, {"name": "Power", "pierce": 0.4}, {"name": "Projectile", "pierce": 0.15}, {"name": "Psychic", "pierce": 1}, {"name": "Pulse", "pierce": 0.2}, {"name": "Toxic", "pierce": 0.7}];
 const DAMAGE_VARIANCE = { MIN: 0.8, AVG: 1, MAX: 1.2 };
 const TERRAIN = { HIGH_GROUND: 0.5, RAZOR_WIRE: 0.5, TRENCH: -0.5 };
-const STORAGE_KEY = "tdc_named_presets_v14";
+const STORAGE_KEY = "tdc_named_presets_v15";
 
 const TRAIT_TEMPLATES = [
   { value: "custom", label: "Custom / Manual", hint: "Manual modifier entry.", apply: {} },
@@ -264,7 +264,7 @@ function downloadJson(filename, data) { const blob = new Blob([JSON.stringify(da
 
 const state = { player: new Combatant("Player"), boss: new Combatant("Boss"), activePlayerAttack: 0, activeBossAttack: 0, results: [], chart: null };
 const el = {
-  player: document.querySelector("#playerPanel"), boss: document.querySelector("#bossPanel"),
+  player: document.querySelector("#playerPanel"), boss: document.querySelector("#bossPanel"), dataStatus: document.querySelector("#dataStatus"), dataSummary: document.querySelector("#dataSummary"),
   results: document.querySelector("#results"), log: document.querySelector("#combatLog"),
   chartCanvas: document.querySelector("#damageChart"), fallback: document.querySelector("#chartFallback"),
   validation: document.querySelector("#validation"), rollCount: document.querySelector("#rollCount"),
@@ -502,9 +502,9 @@ function renderChart() {
   if(window.Chart) { if(state.chart) state.chart.destroy(); state.chart=new Chart(el.chartCanvas,{type:"bar",data:{labels:data.map(d=>d.label),datasets:[{label:"Rolls",data:data.map(d=>d.count)}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:"#bbb5a8"}},y:{ticks:{color:"#bbb5a8",precision:0}}}}}); }
 }
 
-function encounter() { return {type:"encounter",version:"1.4",player:state.player,boss:state.boss}; }
-function playerOnly() { return {type:"player",version:"1.4",player:state.player}; }
-function bossOnly() { return {type:"boss",version:"1.4",boss:state.boss}; }
+function encounter() { return {type:"encounter",version:"1.5",player:state.player,boss:state.boss}; }
+function playerOnly() { return {type:"player",version:"1.5",player:state.player}; }
+function bossOnly() { return {type:"boss",version:"1.5",boss:state.boss}; }
 function hydrateEncounter(d) { state.player=Combatant.from(d?.player??{},"Player"); state.boss=Combatant.from(d?.boss??{},"Boss"); state.activePlayerAttack=0; state.activeBossAttack=0; state.results=[]; render(); }
 function hydratePlayer(d) { state.player=Combatant.from(d?.player??d??{},"Player"); state.activePlayerAttack=0; state.results=[]; render(); }
 function hydrateBoss(d) { state.boss=Combatant.from(d?.boss??d??{},"Boss"); state.activeBossAttack=0; state.results=[]; render(); }
@@ -524,5 +524,30 @@ el.exportPlayer.addEventListener("click",()=>downloadJson("tacticus-player.json"
 el.exportBoss.addEventListener("click",()=>downloadJson("tacticus-boss.json",bossOnly()));
 el.import.addEventListener("change",async()=>{ const file=el.import.files[0]; if(!file)return; try{importData(JSON.parse(await file.text()));}catch{alert("Could not import that JSON file.");} el.import.value=""; });
 
-try { render(); } catch(error) { console.error(error); const box=document.querySelector("#startupError"); if(box){box.hidden=false;box.textContent="App startup failed: "+error.message;} }
+
+async function loadGameDataFoundation() {
+  if (!el.dataStatus || !el.dataSummary) return;
+  try {
+    const response = await fetch("./assets/data/tacticus-game-data.json?v=1.5");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const counts = data.meta?.counts || {};
+    el.dataStatus.textContent = "Local Tacticus data loaded. Character selectors will be built on this foundation in the next feature pass.";
+    el.dataSummary.innerHTML = [
+      ["Characters", counts.characters],
+      ["Machine of War / boss-like records", counts.machineOfWar],
+      ["Progression steps", counts.progressionSteps],
+      ["Upgrades", counts.upgrades],
+      ["Items", counts.items],
+      ["Abilities", counts.abilities],
+      ["Damage profiles", counts.damageProfiles]
+    ].map(([label, value]) => `<div class="metric"><span>${label}</span><strong>${value ?? "—"}</strong></div>`).join("");
+    window.TACTICUS_GAME_DATA = data;
+  } catch (error) {
+    console.error(error);
+    el.dataStatus.textContent = "Could not load local game data: " + error.message;
+  }
+}
+
+try { render(); loadGameDataFoundation(); } catch(error) { console.error(error); const box=document.querySelector("#startupError"); if(box){box.hidden=false;box.textContent="App startup failed: "+error.message;} }
 })();

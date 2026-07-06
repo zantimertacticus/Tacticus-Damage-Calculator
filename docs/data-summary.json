@@ -1,0 +1,1348 @@
+{
+  "counts": {
+    "characters": 123,
+    "machineOfWar": 11,
+    "progressionSteps": 20,
+    "upgrades": 558,
+    "items": 212,
+    "abilities": 559,
+    "damageProfiles": 22,
+    "uniqueTraits": 43
+  },
+  "topFactions": [
+    [
+      "Ultramarines",
+      7
+    ],
+    [
+      "Necrons",
+      7
+    ],
+    [
+      "AstraMilitarum",
+      7
+    ],
+    [
+      "Tau",
+      7
+    ],
+    [
+      "DarkAngels",
+      7
+    ],
+    [
+      "Sisterhood",
+      6
+    ],
+    [
+      "BlackLegion",
+      6
+    ],
+    [
+      "DeathGuard",
+      6
+    ],
+    [
+      "Orks",
+      6
+    ],
+    [
+      "SpaceWolves",
+      6
+    ],
+    [
+      "ThousandSons",
+      6
+    ],
+    [
+      "Tyranids",
+      6
+    ],
+    [
+      "BloodAngels",
+      6
+    ],
+    [
+      "BlackTemplars",
+      5
+    ],
+    [
+      "Aeldari",
+      5
+    ],
+    [
+      "AdeptusMechanicus",
+      5
+    ],
+    [
+      "WorldEaters",
+      5
+    ],
+    [
+      "Genestealers",
+      5
+    ],
+    [
+      "Custodes",
+      5
+    ],
+    [
+      "EmperorsChildren",
+      5
+    ],
+    [
+      "LeaguesOfVotann",
+      4
+    ],
+    [
+      "AdeptusAstartes",
+      1
+    ]
+  ],
+  "topTraits": [
+    [
+      "Hero",
+      112
+    ],
+    [
+      "Flying",
+      19
+    ],
+    [
+      "Resilient",
+      18
+    ],
+    [
+      "Mechanical",
+      17
+    ],
+    [
+      "FinalJustice",
+      14
+    ],
+    [
+      "RapidAssault",
+      13
+    ],
+    [
+      "Psyker",
+      12
+    ],
+    [
+      "MachineOfWar",
+      11
+    ],
+    [
+      "Terrifying",
+      11
+    ],
+    [
+      "Unstoppable",
+      10
+    ],
+    [
+      "TerminatorArmour",
+      10
+    ],
+    [
+      "HeavyWeapon",
+      9
+    ],
+    [
+      "Infiltrate",
+      9
+    ],
+    [
+      "BigTarget",
+      9
+    ],
+    [
+      "TeleportStrike",
+      9
+    ],
+    [
+      "Parry",
+      9
+    ],
+    [
+      "Overwatch",
+      8
+    ],
+    [
+      "CrushingStrike",
+      8
+    ],
+    [
+      "SuppressiveFire",
+      8
+    ],
+    [
+      "BeastSlayer",
+      7
+    ],
+    [
+      "Healer",
+      6
+    ],
+    [
+      "LivingMetal",
+      6
+    ],
+    [
+      "Camouflage",
+      6
+    ],
+    [
+      "ActOfFaith",
+      5
+    ],
+    [
+      "Mechanic",
+      5
+    ],
+    [
+      "LetTheGalaxyBurn",
+      5
+    ],
+    [
+      "ContagionsOfNurgle",
+      5
+    ],
+    [
+      "GetStuckIn",
+      5
+    ],
+    [
+      "RangedSpecialist",
+      5
+    ],
+    [
+      "WeaverOfFate",
+      5
+    ]
+  ],
+  "exampleCharacter": {
+    "id": "ultraCalgar",
+    "name": "Calgar",
+    "factionId": "Ultramarines",
+    "grandAllianceId": "Imperial",
+    "baseRarity": "Legendary",
+    "movement": 3,
+    "baseStats": {
+      "health": 95,
+      "damage": 28,
+      "armour": 20,
+      "progressionIndex": 12
+    },
+    "weapons": [
+      {
+        "hits": 2,
+        "damageProfile": "Power",
+        "piercingRatio": 40,
+        "range": null
+      }
+    ],
+    "traits": [
+      "Hero",
+      "CrushingStrike",
+      "FinalJustice",
+      "MkXGravis"
+    ],
+    "activeAbilities": [
+      "GauntletsOfUltramar"
+    ],
+    "passiveAbilities": [
+      "RitesOfBattle"
+    ],
+    "mythicAbilities": [],
+    "itemSlots": [
+      "I_Crit",
+      "I_Block",
+      "I_Booster_Block"
+    ],
+    "releaseStatus": "released",
+    "isMachineOfWar": false,
+    "upgradeRows": [
+      {
+        "rankIndex": 0,
+        "rankLabel": "Stone I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpC015",
+            "name": "Ropes and Chains",
+            "rarity": "Common",
+            "statType": "hp",
+            "statIncrease": 12
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpC017",
+            "name": "Mission Assignment",
+            "rarity": "Common",
+            "statType": "hp",
+            "statIncrease": 12
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgC013",
+            "name": "Vox-Caster",
+            "rarity": "Common",
+            "statType": "dmg",
+            "statIncrease": 4
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgC011",
+            "name": "Weapon Anointment Oils",
+            "rarity": "Common",
+            "statType": "dmg",
+            "statIncrease": 4
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmC004",
+            "name": "Adamantium Ore",
+            "rarity": "Common",
+            "statType": "fixedArmor",
+            "statIncrease": 3
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmC001",
+            "name": "Purity Seal",
+            "rarity": "Common",
+            "statType": "fixedArmor",
+            "statIncrease": 3
+          }
+        ]
+      },
+      {
+        "rankIndex": 1,
+        "rankLabel": "Stone II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpC015",
+            "name": "Ropes and Chains",
+            "rarity": "Common",
+            "statType": "hp",
+            "statIncrease": 15
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpC003",
+            "name": "Lesser Reliquary of Protection",
+            "rarity": "Common",
+            "statType": "hp",
+            "statIncrease": 15
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgC009",
+            "name": "Basic Auxiliary Core",
+            "rarity": "Common",
+            "statType": "dmg",
+            "statIncrease": 3
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgU006",
+            "name": "Marksman's Honour",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 5
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmC013",
+            "name": "Armor Trim",
+            "rarity": "Common",
+            "statType": "fixedArmor",
+            "statIncrease": 2
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmU009",
+            "name": "Blessed Tasset Plate",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 3
+          }
+        ]
+      },
+      {
+        "rankIndex": 2,
+        "rankLabel": "Stone III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpC005",
+            "name": "The Silver Aquila",
+            "rarity": "Common",
+            "statType": "hp",
+            "statIncrease": 12
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpU002",
+            "name": "Reliquary of Protection",
+            "rarity": "Uncommon",
+            "statType": "hp",
+            "statIncrease": 25
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgU013C",
+            "name": "Fine Auxiliary Core",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 6
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgR007",
+            "name": "Bladesman's Honour",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 6
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmC013",
+            "name": "Armor Trim",
+            "rarity": "Common",
+            "statType": "fixedArmor",
+            "statIncrease": 3
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmU013",
+            "name": "Cloak",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 5
+          }
+        ]
+      },
+      {
+        "rankIndex": 3,
+        "rankLabel": "Iron I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpU006",
+            "name": "The Gold Phoenix",
+            "rarity": "Uncommon",
+            "statType": "hp",
+            "statIncrease": 24
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpU017",
+            "name": "Mission Objective",
+            "rarity": "Uncommon",
+            "statType": "hp",
+            "statIncrease": 24
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgU012",
+            "name": "Locator Beacon",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 5
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgU015C",
+            "name": "Blessed Weapon Oils",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 8
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmU003C",
+            "name": "Adamantium Lump",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 6
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmU001",
+            "name": "Oath Seal",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 4
+          }
+        ]
+      },
+      {
+        "rankIndex": 4,
+        "rankLabel": "Iron II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpU008",
+            "name": "The Silver Eagle with Swords",
+            "rarity": "Uncommon",
+            "statType": "hp",
+            "statIncrease": 29
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpU002",
+            "name": "Reliquary of Protection",
+            "rarity": "Uncommon",
+            "statType": "hp",
+            "statIncrease": 29
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgU001C",
+            "name": "Magazine",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 7
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgR13C",
+            "name": "Prey-Sight",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 10
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmU005",
+            "name": "Ceramite Lump",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 4
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmR003C",
+            "name": "Ceramite Bar",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 9
+          }
+        ]
+      },
+      {
+        "rankIndex": 5,
+        "rankLabel": "Iron III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpR018",
+            "name": "Kill Count",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 32
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpR012C",
+            "name": "Electromantic Cable Bundle",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 42
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgR007",
+            "name": "Bladesman's Honour",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 11
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgU015C",
+            "name": "Blessed Weapon Oils",
+            "rarity": "Uncommon",
+            "statType": "dmg",
+            "statIncrease": 11
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmU005",
+            "name": "Ceramite Lump",
+            "rarity": "Uncommon",
+            "statType": "fixedArmor",
+            "statIncrease": 5
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmR013C",
+            "name": "Fine Cloak",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 10
+          }
+        ]
+      },
+      {
+        "rankIndex": 6,
+        "rankLabel": "Bronze I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpR005",
+            "name": "The Phoenix Ascendant",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 39
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpR017C",
+            "name": "Battle Plan",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 53
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgR006",
+            "name": "Bionic Eye",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 12
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgR012C",
+            "name": "Advanced Combat Stimms",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 15
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmR012C",
+            "name": "Impressive Armor Trim",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 10
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmR001C",
+            "name": "Blessed Purity Seal",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 10
+          }
+        ]
+      },
+      {
+        "rankIndex": 7,
+        "rankLabel": "Bronze II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpE003",
+            "name": "Terminator Honours",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 58
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpR020C",
+            "name": "Sanctified Reliquary of Protection",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 58
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgE008C",
+            "name": "Anointed Auxiliary Core",
+            "rarity": "Epic",
+            "statType": "dmg",
+            "statIncrease": 19
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgR004C",
+            "name": "Plasma Cell Bundle",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 15
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmR003C",
+            "name": "Ceramite Bar",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 12
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmR007C",
+            "name": "Adamantium Bar",
+            "rarity": "Rare",
+            "statType": "fixedArmor",
+            "statIncrease": 12
+          }
+        ]
+      },
+      {
+        "rankIndex": 8,
+        "rankLabel": "Bronze III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpE003",
+            "name": "Terminator Honours",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 72
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpR004C",
+            "name": "Refined Bionics",
+            "rarity": "Rare",
+            "statType": "hp",
+            "statIncrease": 72
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL004C",
+            "name": "Legendary Reliquary of Vengeance",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 26
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgR015C",
+            "name": "Sanctified Weapon Oils",
+            "rarity": "Rare",
+            "statType": "dmg",
+            "statIncrease": 17
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmE004C",
+            "name": "Ceramite Sheet",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 15
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmE001C",
+            "name": "Grand Purity Seal",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 15
+          }
+        ]
+      },
+      {
+        "rankIndex": 9,
+        "rankLabel": "Silver I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL009C",
+            "name": "Grandiose Skull Ornament",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 99
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpE002C",
+            "name": "Greater Reliquary of Protection",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 82
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL004C",
+            "name": "Legendary Reliquary of Vengeance",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 32
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgE004",
+            "name": "Bionic Neural Pathways",
+            "rarity": "Epic",
+            "statType": "dmg",
+            "statIncrease": 21
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmE004C",
+            "name": "Ceramite Sheet",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 19
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmE006C",
+            "name": "Ancient Tasset Plate",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 19
+          }
+        ]
+      },
+      {
+        "rankIndex": 10,
+        "rankLabel": "Silver II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpE007C",
+            "name": "Grand Helmet Trophy",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 114
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpE001C",
+            "name": "Advanced Bionics",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 114
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgE001",
+            "name": "Special Issue Ammo",
+            "rarity": "Epic",
+            "statType": "dmg",
+            "statIncrease": 30
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgE007C",
+            "name": "Plasma Cell Crate",
+            "rarity": "Epic",
+            "statType": "dmg",
+            "statIncrease": 37
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmE004C",
+            "name": "Ceramite Sheet",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 24
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmE001C",
+            "name": "Grand Purity Seal",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 24
+          }
+        ]
+      },
+      {
+        "rankIndex": 11,
+        "rankLabel": "Silver III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL009C",
+            "name": "Grandiose Skull Ornament",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 141
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL002C",
+            "name": "Legendary Reliquary of Protection",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 141
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL004C",
+            "name": "Legendary Reliquary of Vengeance",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 42
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL015C",
+            "name": "Digital Weapons",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 42
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL001",
+            "name": "Purity Seal of the Primarch",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 27
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL006C",
+            "name": "Grand Tasset Plate",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 33
+          }
+        ]
+      },
+      {
+        "rankIndex": 12,
+        "rankLabel": "Gold I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL120C",
+            "name": "Codex Astartes",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 178
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL009C",
+            "name": "Grandiose Skull Ornament",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 178
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL004C",
+            "name": "Legendary Reliquary of Vengeance",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 52
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL008C",
+            "name": "Powered Blade",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 52
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL004C",
+            "name": "Ceramite Plates",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 37
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL010C",
+            "name": "Seal of the Emperor's Protection",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 37
+          }
+        ]
+      },
+      {
+        "rankIndex": 13,
+        "rankLabel": "Gold II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL009C",
+            "name": "Grandiose Skull Ornament",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 222
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL001C",
+            "name": "Optimal Bionic Enhancement",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 222
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL120C",
+            "name": "Hellfury Bolts",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 66
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL008C",
+            "name": "Powered Blade",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 66
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL120C",
+            "name": "Adamantine Mantle",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 47
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL006C",
+            "name": "Grand Tasset Plate",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 47
+          }
+        ]
+      },
+      {
+        "rankIndex": 14,
+        "rankLabel": "Gold III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL120C",
+            "name": "Codex Astartes",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 279
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL002C",
+            "name": "Legendary Reliquary of Protection",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 279
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL120C",
+            "name": "Hellfury Bolts",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 82
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL015C",
+            "name": "Digital Weapons",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 82
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL120C",
+            "name": "Adamantine Mantle",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 59
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL010C",
+            "name": "Seal of the Emperor's Protection",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 59
+          }
+        ]
+      },
+      {
+        "rankIndex": 15,
+        "rankLabel": "Diamond I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL120C",
+            "name": "Codex Astartes",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 348
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL002C",
+            "name": "Legendary Reliquary of Protection",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 348
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL120C",
+            "name": "Hellfury Bolts",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 103
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL006C",
+            "name": "Optimal Auxiliary Core",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 103
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL120C",
+            "name": "Adamantine Mantle",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 73
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL004C",
+            "name": "Ceramite Plates",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 73
+          }
+        ]
+      },
+      {
+        "rankIndex": 16,
+        "rankLabel": "Diamond II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL120C",
+            "name": "Codex Astartes",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 436
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL213C",
+            "name": "Superaugmented Constitution",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 436
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgL120C",
+            "name": "Hellfury Bolts",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 128
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL213C",
+            "name": "Superaugmented Strength",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 128
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmL120C",
+            "name": "Adamantine Mantle",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 92
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL213C",
+            "name": "Superaugmented Defences",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 92
+          }
+        ]
+      },
+      {
+        "rankIndex": 17,
+        "rankLabel": "Diamond III / Mythic I",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpL120C",
+            "name": "Codex Astartes",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 238
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL213C",
+            "name": "Superaugmented Constitution",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 238
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgM213C",
+            "name": "Ancient Weapon Augmentation",
+            "rarity": "Mythic",
+            "statType": "dmg",
+            "statIncrease": 75
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL213C",
+            "name": "Superaugmented Strength",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 65
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmM211C",
+            "name": "Seal of Indomitability",
+            "rarity": "Mythic",
+            "statType": "fixedArmor",
+            "statIncrease": 54
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL213C",
+            "name": "Superaugmented Defences",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 46
+          }
+        ]
+      },
+      {
+        "rankIndex": 18,
+        "rankLabel": "Adamantine I / Mythic II",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpM120C",
+            "name": "Grand Symbol of the Ultramarines",
+            "rarity": "Mythic",
+            "statType": "hp",
+            "statIncrease": 255
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpL213C",
+            "name": "Superaugmented Constitution",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 219
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgM213C",
+            "name": "Ancient Weapon Augmentation",
+            "rarity": "Mythic",
+            "statType": "dmg",
+            "statIncrease": 75
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgL213C",
+            "name": "Superaugmented Strength",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 65
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmM214C",
+            "name": "Warforged Safeguard",
+            "rarity": "Mythic",
+            "statType": "fixedArmor",
+            "statIncrease": 54
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmL213C",
+            "name": "Superaugmented Defences",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 46
+          }
+        ]
+      },
+      {
+        "rankIndex": 19,
+        "rankLabel": "Adamantine II / Mythic III",
+        "slots": [
+          {
+            "slot": 1,
+            "upgradeId": "upgHpECS",
+            "name": "Coming soon",
+            "rarity": "Epic",
+            "statType": "hp",
+            "statIncrease": 211
+          },
+          {
+            "slot": 2,
+            "upgradeId": "upgHpCS",
+            "name": "Coming soon",
+            "rarity": "Legendary",
+            "statType": "hp",
+            "statIncrease": 263
+          },
+          {
+            "slot": 3,
+            "upgradeId": "upgDmgECS",
+            "name": "Coming soon",
+            "rarity": "Epic",
+            "statType": "dmg",
+            "statIncrease": 62
+          },
+          {
+            "slot": 4,
+            "upgradeId": "upgDmgCS",
+            "name": "Coming soon",
+            "rarity": "Legendary",
+            "statType": "dmg",
+            "statIncrease": 78
+          },
+          {
+            "slot": 5,
+            "upgradeId": "upgArmECS",
+            "name": "Coming soon",
+            "rarity": "Epic",
+            "statType": "fixedArmor",
+            "statIncrease": 44
+          },
+          {
+            "slot": 6,
+            "upgradeId": "upgArmCS",
+            "name": "Coming soon",
+            "rarity": "Legendary",
+            "statType": "fixedArmor",
+            "statIncrease": 56
+          }
+        ]
+      }
+    ]
+  }
+}
