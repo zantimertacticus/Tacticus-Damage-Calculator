@@ -6,8 +6,6 @@ Unofficial Fan Tool, made by zantimer.
 
 ## New in v1.6
 
-- Removed references to third-party data-source names.
-- Project now describes its data source as extracted game configuration data.
 - Preserves the local game configuration data bundle foundation from v1.5.
 - Keeps future model space for Boss + two bodyguards/adjutants.
 - Adds the progression rule for future character selectors:
